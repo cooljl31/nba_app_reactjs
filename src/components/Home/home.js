@@ -1,6 +1,7 @@
 import React from 'react';
 import NewsSlider from '../widgets/NewsSlider/slider'
 import NewsList from '../widgets/NewsList/newsList'
+import VideosList from '../widgets/VideosList/videoList'
 
 export const Home  = () => {
   return (
@@ -8,7 +9,7 @@ export const Home  = () => {
       <NewsSlider
         type="feature"
         start={0}
-        amount={6}
+        amount={3}
         dots={true}
         settings={{
           dots:false
@@ -18,7 +19,14 @@ export const Home  = () => {
       type="card"
       loadmore={true}
       start={3}
-      amount={0}
+      amount={3}
+      />
+       <VideosList
+        type="card"
+        title={true}
+        loadMore={true}
+        start={0}
+        amount={3}
       />
     </div>
   );
