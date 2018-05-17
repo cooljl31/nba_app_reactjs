@@ -22,8 +22,6 @@ const Header = (props) => {
       </div>
     )
   }
-console.log(props);
-
 
   return (
     <header className={style.header}>

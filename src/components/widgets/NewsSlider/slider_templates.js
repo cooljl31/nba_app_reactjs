@@ -15,13 +15,10 @@ const SliderTemplates = (props) => {
     slidesToScroll: 1,
     ...props.settings
   }
-  console.log(props);
-
 
   switch (props.type) {
     case 'feature':
-      template = props.data.map ( (item,i) => {
-        return(
+      template = props.data.map ( (item,i) => (
           <div key={i}>
             <div className={style.featured_item}>
               <div className={style.featured_image}
@@ -38,7 +35,7 @@ const SliderTemplates = (props) => {
             </div>
           </div>
         )
-      })
+      )
       break;
 
     default:
