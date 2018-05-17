@@ -31,7 +31,7 @@ class VideosList  extends Component {
         })
       })
     }
-    Axios.get(`${URL}/videos?_start${start}&_end=${end}`)
+    Axios.get(`${URL}/videos?_start=${start}&_end=${end}`)
     .then( (response) => {
       this.setState({
         videos:[...this.state.videos,...response.data],

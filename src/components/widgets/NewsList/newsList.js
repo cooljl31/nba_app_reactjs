@@ -30,7 +30,7 @@ class NewsList extends Component {
         })
       })
     }
-    Axios.get(`${URL}/articles?_start${start}&_end=${end}`)
+    Axios.get(`${URL}/articles?_start=${start}&_end=${end}`)
     .then( (response) => {
       this.setState({
         news:[...this.state.news, ...response.data],
