@@ -1,0 +1,17 @@
+import React from 'react';
+import style from '../articles.css';
+
+const PostData = (props) =>  (
+    <div className={style.articlePostData}>
+    <div>
+      Data:
+      <span>{ props.data.date }</span>
+    </div>
+    <div>
+      Author:
+      <span>{ props.data.author }</span>
+    </div>
+    </div>
+  )
+
+export default PostData;
