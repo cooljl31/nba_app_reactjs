@@ -7,7 +7,7 @@ export const Home  = () => {
   return (
     <div>
       <NewsSlider
-        type="feature"
+        type="featured"
         start={0}
         amount={3}
         dots={true}
