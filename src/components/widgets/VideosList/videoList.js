@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import style from './videoslist.css';
+import style from './videosList.css';
 import Axios from 'axios';
 import {URL} from '../../../config'
 import Button from '../../button/button'

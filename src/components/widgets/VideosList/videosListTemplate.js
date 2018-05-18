@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './videoslist.css';
+import style from './videosList.css';
 import {Link} from 'react-router-dom'
 import CardInfo from '../CardInfo/cardInfo'
 

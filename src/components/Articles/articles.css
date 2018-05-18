@@ -62,3 +62,25 @@
    line-height: 23px;
    margin: 15px 0;
  }
+
+.viedosArticle__wrapper {
+  background: #fff;
+  margin: 0 5px;
+  border: 1px solid #c5c5c5;
+
+}
+
+.viedosArticle__wrapper h1 {
+  font-size: 25px;
+  font-weight: 400;
+  color: #4d4d4d;
+  margin: 15px 0;
+  padding: 0 10px;
+}
+.viedosArticle__wrapper iframe {
+  border: 0;
+}
+
+.relatedWrapper {
+  margin:0 5px;
+}
