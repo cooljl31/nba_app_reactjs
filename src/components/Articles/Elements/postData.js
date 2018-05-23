@@ -1,11 +1,14 @@
 import React from 'react';
 import style from '../articles.css';
+import {FormatDate} from '../../Helpers/helpers'
+
 
 const PostData = (props) =>  (
+
     <div className={style.articlePostData}>
     <div>
       Data:
-      <span>{ props.data.date }</span>
+      <span>{ FormatDate(props.data.date) }</span>
     </div>
     <div>
       Author:

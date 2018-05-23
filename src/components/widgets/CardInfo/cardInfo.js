@@ -1,12 +1,13 @@
 import React from 'react';
 import FontAweseome from 'react-fontawesome';
 import style from './cardinfo.css';
+import {FormatDate} from '../../Helpers/helpers'
 
 const CardInfo = (props) => {
 
   const teamName = (teams, team) =>  {
     let data = teams.find((item) => {
-      return item.id === team
+      return item.teamId === team
     });
 
     if (data) {
@@ -21,7 +22,7 @@ const CardInfo = (props) => {
       </span>
       <span className={style.date} >
         <FontAweseome name="clock-o" />
-        {props.date}
+        {FormatDate(props.date)}
       </span>
     </div>
   );
