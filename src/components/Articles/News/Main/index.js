@@ -7,13 +7,13 @@ const NewsMain = () => (
       <NewsSlider
         type="featured"
         settings={{dots:false}}
-        start={0}
+        start={-1}
         amount={6}
       />
       <NewsList
       type="cardMain"
       loadMore={true}
-      start={0}
+      start={-2}
       amount={8}
       />
     </div>
