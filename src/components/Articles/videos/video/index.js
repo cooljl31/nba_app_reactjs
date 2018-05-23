@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import style from '../../articles.css';
-import Axios from 'axios';
 import Header from './header'
-import {URL} from '../../../../config'
 import VideosRelated from '../../../widgets/VideosRelated/videosRelated'
+import {firebaseDB, firebaseTeams, firebaseLooper, firebaseVideos} from '../../../../firebase'
 
 class VideosArticle extends Component {
   state = {
@@ -14,41 +13,40 @@ class VideosArticle extends Component {
   }
 
   componentWillMount() {
-    Axios.get(`${URL}/videos?id=${this.props.match.params.id}`)
-    .then( response => {
-      let article = response.data[0];
+    firebaseDB
+    .ref(`videos/${this.props.match.params.id}`)
+    .once('value')
+    .then((snap) => {
+      let article = snap.val();
+      firebaseTeams.orderByChild("id").equalTo(article.team).once('value')
+      .then((snap) => {
+        const team = firebaseLooper(snap);
 
-      Axios.get(`${URL}/teams?id=${article.team}`)
-      .then( response => {
-        this.setState({
-          article,
-          team: response.data
-        })
-        this.getReleted();
-      })
-    })
+        this.setState({ article, team  });
+        this.getRelated();
+      });
+    });
   }
 
-  getReleted = () => {
-    Axios.get(`${URL}/teams`)
-    .then( response => {
-      let teams = response.data;
-
-    Axios.get(`${URL}/videos?q=${this.state.team[0].city}&_limit=3`)
-      .then ( response => {
-
-        this.setState({
-          teams,
-          related: response.data
-        })
-      })
-    })
+  getRelated = () => {
+    firebaseTeams.once('value')
+    .then((snap) => {
+      const teams = firebaseLooper(snap);
+      firebaseVideos
+      .orderByChild("team")
+      .equalTo(this.state.article.team)
+      .limitToLast(3)
+      .once('value')
+      .then((snap) => {
+        const related = firebaseLooper(snap);
+        this.setState({ teams, related });
+      });
+    });
   }
 
   render() {
     const article = this.state.article;
     const team = this.state.team;
-    console.log(article);
     return (
       <div className={style.viedosArticle__wrapper}>
         <Header

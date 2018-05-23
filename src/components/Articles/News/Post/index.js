@@ -1,28 +1,33 @@
 import React, { Component } from 'react';
 import style from '../../articles.css';
 import Header from './header';
-import Axios from 'axios';
-import {URL} from '../../../../config';
+import { firebaseDB, firebaseTeams, firebaseLooper , firebaseImageUrl} from '../../../../firebase';
 
 class NewsArticle extends Component {
   state = {
     article: [],
-    team: []
+    team: [],
+    imageUrl:''
   }
 
 
   componentWillMount() {
-    Axios.get(`${URL}/articles?id=${this.props.match.params.id}`)
-    .then( response => {
-      let article = response.data[0];
-      Axios.get(`${URL}/teams?id=${article.team}`)
-      .then( response => {
-        this.setState({
-          article,
-          team: response.data
-        })
+    firebaseDB.ref(`articles/${this.props.match.params.id}`).once('value')
+    .then((snap) => {
+      let article = snap.val();
+      firebaseTeams.orderByChild("id").equalTo(article.team).once('value')
+      .then((snap) => {
+        const team = firebaseLooper(snap);
+
+        this.setState({ article, team  });
+
+      });
+      firebaseImageUrl(article.image)
+      .then((imageUrl) => {
+        this.setState({ imageUrl });
       })
-    })
+    });
+
   }
 
 
@@ -40,12 +45,15 @@ class NewsArticle extends Component {
         <h1>{article.title}</h1>
         <div className={style.articleImage}
             style={{
-              background:`url(/images/articles/${article.image})`
+              background:`url(${this.state.imageUrl})`
             }}
         >
         </div>
-        <div className={style.articleText}>
-            {article.body}
+        <div className={style.articleText}
+          dangerouslySetInnerHTML={{
+            __html: article.body
+          }}
+        >
         </div>
         </div>
       </div>

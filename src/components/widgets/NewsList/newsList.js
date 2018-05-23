@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 import {TransitionGroup, CSSTransition} from 'react-transition-group';
-import {URL} from '../../../config'
 import style from './newslist.css';
 import {Link} from 'react-router-dom'
 import Button from '../../button/button';
 import CardInfo from '../CardInfo/cardInfo'
+import {firebaseTeams, firebaseLooper, firebaseArticles} from '../../../firebase'
 
 class NewsList extends Component {
 
@@ -23,26 +22,30 @@ class NewsList extends Component {
 
   request = (start, end) => {
     if (this.state.teams.length < 1) {
-      Axios.get(`${URL}/teams`)
-      .then( (response) => {
-        this.setState({
-          teams:response.data
-        })
-      })
+      firebaseTeams.once('value')
+      .then((snap) => {
+        const teams = firebaseLooper(snap);
+
+        this.setState({ teams });
+      });
     }
-    Axios.get(`${URL}/articles?_start=${start}&_end=${end}`)
-    .then( (response) => {
+
+    firebaseArticles.orderByChild("team").startAt(start).endAt(end).once('value')
+    .then((snap) => {
+      const articles = firebaseLooper(snap);
+
       this.setState({
-        news:[...this.state.news, ...response.data],
+        news:[...this.state.news, ...articles],
         start,
         end
       })
-    })
+    });
+
   }
 
   loadmore = () => {
     let end = this.state.end + this.state.amount;
-    this.request(this.state.end,end)
+    this.request(this.state.end + 1,end)
   }
 
   renderNews = (type) => {

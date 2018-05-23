@@ -8,7 +8,7 @@ export const Home  = () => {
     <div>
       <NewsSlider
         type="featured"
-        start={0}
+        start={-1}
         amount={3}
         dots={true}
         settings={{
@@ -18,7 +18,7 @@ export const Home  = () => {
       <NewsList
       type="card"
       loadmore={true}
-      start={3}
+      start={0}
       amount={3}
       />
        <VideosList

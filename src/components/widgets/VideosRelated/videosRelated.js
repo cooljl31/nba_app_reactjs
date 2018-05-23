@@ -3,6 +3,7 @@ import style from '../VideosList/videosList.css';
 import VideosListTemplate from '../VideosList/videosListTemplate'
 
 const VideosRelated = (props) => {
+
   return (
     <div className={style.relatedWrapper}>
       <VideosListTemplate

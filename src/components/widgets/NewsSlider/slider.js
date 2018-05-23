@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 import SliderTemplates from './slider_templates'
-import {URL} from '../../../config'
+import {firebaseArticles, firebaseLooper, firebaseImageUrl} from '../../../firebase'
 
 class NewsSlider extends Component {
 
@@ -10,10 +9,30 @@ class NewsSlider extends Component {
   }
 
   componentWillMount() {
-    Axios.get(`${URL}/articles?_start=${this.props.start}&_end=${this.props.amount}`)
-    .then( response => {
-      this.setState({
-        news:response.data
+    firebaseArticles.limitToLast(3).once('value')
+    .then((snap)=>{
+      const news = firebaseLooper(snap)
+      console.log(news);
+
+      const asyncFunc = (item,i,cb) => {
+        firebaseImageUrl(item.image)
+        .then((url) => {
+          news[i].image = url
+          cb()
+        });
+      }
+
+      let requests = news.map((item,i) => {
+        return new Promise((resolve) => {
+          asyncFunc(item,i,resolve)
+        })
+      })
+
+      Promise.all(requests)
+      .then(() => {
+        this.setState({
+          news
+        })
       })
     })
   }
